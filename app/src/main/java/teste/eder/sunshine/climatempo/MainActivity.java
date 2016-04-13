@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -57,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
 
+        //elementos
+        final EditText text = (EditText) findViewById(R.id.stCampo);
         Button mButtonNublado = (Button) findViewById(R.id.buttonNublado);
         Button mButtonEnsolarado = (Button) findViewById(R.id.buttonEnsolarado);
         final TextView mTextClima = (TextView) findViewById(R.id.textClima);
 
-        //mRef = new Firebase("https://climatempo.firebaseio.com/clima");
-        mRef = new Firebase("https://climatempo.firebaseio.com/");
+        mRef = new Firebase("https://climatempo.firebaseio.com/clima");
+//        mRef = new Firebase("https://climatempo.firebaseio.com/");
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
         mButtonNublado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRef.setValue("Nublado");
+                mRef.push()
+                        .child("text")
+                        .setValue(text.getText().toString());
             }
         });
 
